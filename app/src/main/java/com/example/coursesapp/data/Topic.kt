@@ -1,6 +1,5 @@
 package com.example.coursesapp.data
 
-import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
