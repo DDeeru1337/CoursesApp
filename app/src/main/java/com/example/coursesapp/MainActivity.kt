@@ -5,12 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,7 +35,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CoursesAppTheme {
-
+                CoursesAppLayout(topicList = DataSource.topics)
             }
         }
     }
@@ -40,20 +43,25 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CoursesAppLayout(
-    topic: Topic,
+    topicList: List<Topic>,
     modifier: Modifier = Modifier
 ) {
-    Row {
-        Column {
-            
-        }
-    }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        content = {
+                  items(topicList) { topic ->
+                      TopicLayout(
+                          topic = topic,
+                          modifier = Modifier.padding(8.dp)
+                      )
+                  }
+        })
 }
 
 @Preview
 @Composable
 fun PreviewTopic() {
-    TopicLayout(Topic(R.string.architecture, 21, R.drawable.architecture))
+    CoursesAppLayout(topicList = DataSource.topics)
 }
 
 @Composable
@@ -80,7 +88,10 @@ fun TopicLayout(
                         end = paddingSize
                     )
             ) {
-                Text(text = stringResource(id = topic.name))
+                Text(
+                    text = stringResource(id = topic.name),
+                    maxLines = 1
+                    )
                 Row(
                     modifier = Modifier
                         .padding(top = 8.dp),
